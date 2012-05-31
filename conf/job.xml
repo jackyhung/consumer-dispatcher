@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+  <!-- jmx settings -->
+  <!-- monitor: rhost, rpost for accessing via tools like jconsole; 
+       httpHost and httpPort for accessing via browser over http
+  -->
+  <monitor rHost="localhost" rPort="9999" httpHost="localhost" httpPort="8888"/>
+  
+  <!-- rabbitMQ servers settings -->
+  <servers>
+    <!-- queueserver: the Consumer Dispatcher will use the queueserver definition to init connection to the rabbitmq instance -->
+    <!-- name: any name referenced by the job definition in the later part of this xml -->
+    <!-- host: the ip/host of the server where rabbitmq is running on -->
+    <!-- port: the ip/host of the server where rabbitmq is running on -->
+    <!-- userName, password: the account bound the the vhost on rabbitmq -->
+    <!-- vhost: which vhost is accessing to from this connection -->
+    <queueserver name="server_a" host="mqserver_1" port="5672" userName="guest" password="guest" vhost="/host1" />
+    <queueserver name="server_b" host="mqserver_1" port="5673" userName="guest" password="guest" vhost="/host1" />
+    <queueserver name="server_c" host="mqserver_2" port="5672" userName="guest" password="guest" vhost="/host2" />
+    <queueserver name="server_d" host="mqserver_2" port="5673" userName="guest" password="guest" vhost="/host2" />
+  </servers>
+  
+  <!-- Predefined parameters used by the job definition which can overwrite the values. -->
+  <conf>
+    <!-- request-pre: the predefined url that the Consumer Dispatcher will call on after 
+         the Consumer Dispatcher gets a job from corresponding queue. 
+    -->
+    <request-pre>http://develop.youdomain.lab/consumerDispatch/</request-pre>
+    <!-- request-count: how many consumers (threads) will be working on this queue.  -->
+    <request-count>1</request-count>
+    <!-- request-timeout: the http request timeout in mill-second for each job definition -->
+    <request-timeout>30000</request-timeout>
+  </conf>
+   
+  <!-- job: job definition, not all attribute values are necessary,
+            if they are omitted, it will use the predefined one or use the value from the convention (see more below). 
+  -->  
+  <!-- name: the job name, should be unique -->
+  <!-- server: a reference to rabbitmq server setting with specific vhost. 
+               from which queueServer(defined in queueserver tag) to get the job. -->
+  <!-- queue: the queue name defined in rabbitmq, from which queue the Consumer Dispatcher gets a job.
+              optional. if omitted, the value is same of %name% attribue value. -->
+  <!-- exchange: the exchange name. optional. if omitted, the value is %name%_router  -->
+  <!-- timeout: the http request timeout in mill-second. optional. if omitted, use the predefined %request-timeout% -->
+  <!-- count: how many threads will be working on for this job definition. optional. 
+              if omitted, use predefined %request-timeout%  -->
+  <!-- type: exchange type. optional. if omitted, 'direct' as default  -->
+  <!-- url: the url where the Consumer Dispatcher to call for processing consumer logic after it gets a job from the queue.
+            if omitted, use predefined %request-pre% -->
+  <!-- urlhost: sometime you will have the same url for different sites with "host" to identify the destination. 
+                in this case, you need to specify the urlhost value. -->
+  <!-- encoding: default is utf-8. in most case, you dont need to change it. 
+                 Consumer Dispatcher use this encoding to encode the content fetched from the queue and call your code by send http request. -->              
+  <job name="text_mail" server="a" queue="text_mail" exchange="text_mail_router" 
+       timeout="20000" count="1" type="direct" 
+       url="http://ip:port/consumerDispatch/dispatch" urlhost="jacky.domain" encoding="utf-8"/>
+  
+  <!-- this example implicates queue="bounce_mail"m exchange="bounce_mail_router" 
+       timeout=30000 count=1 type=direct url=http://develop.youdomain.lab/consumerDispatch/  -->
+  <job name="bounce_mail" server="a" />
+</jobs>

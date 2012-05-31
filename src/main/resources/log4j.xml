@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" threshold="debug">
+  <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+    <param name="Threshold" value="debug"></param>
+    <param name="ImmediateFlush" value="true"></param>
+    <param name="Encoding" value="GBK"></param>
+    <param name="Target" value="System.out"></param>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %-5p %c{2} %x%t - %m%n"></param>
+    </layout>
+  </appender>
+  <appender name="consumerDispatcherLog" class="org.apache.log4j.RollingFileAppender">
+    <param name="Threshold" value="info"></param>
+    <param name="ImmediateFlush" value="true"></param>
+    <param name="Encoding" value="GBK"></param>
+    <param name="File" value="./consumerDispatcherLog.log"></param>
+    <param name="Append" value="true"></param>
+    <param name="BufferedIO" value="false"></param>
+    <param name="MaxFileSize" value="10000KB"></param>
+    <param name="maxBackupIndex" value="50"></param>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %-5p %c{2}(Line:%L) %x[%t] - %m%n"></param>
+    </layout>
+  </appender>
+  <appender name="consumerDispatcherServerLog" class="org.apache.log4j.RollingFileAppender">
+    <param name="Threshold" value="info"></param>
+    <param name="ImmediateFlush" value="true"></param>
+    <param name="Encoding" value="GBK"></param>
+    <param name="File" value="./serverLog.log"></param>
+    <param name="Append" value="true"></param>
+    <param name="BufferedIO" value="false"></param>
+    <param name="MaxFileSize" value="10000KB"></param>
+    <param name="maxBackupIndex" value="50"></param>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %-5p %c{2}(Line:%L) %x[%t] - %m%n"></param>
+    </layout>
+  </appender>
+  <root>
+    <level value="INFO"></level>
+    <appender-ref ref="consumerDispatcherLog"></appender-ref>
+    <!-- appender-ref ref="Console"></appender-ref -->
+  </root>
+  <category name="org.apache.commons.httpclient" additivity="true">
+    <priority value="error" />
+    <appender-ref ref="consumerDispatcherLog"></appender-ref>
+  </category>
+  <category name="org.apache.http.client" additivity="true">
+    <priority value="error" />
+    <appender-ref ref="consumerDispatcherLog"></appender-ref>
+  </category>
+  <category name="org.apache.zookeeper" additivity="true">
+    <priority value="warn" />
+    <appender-ref ref="consumerDispatcherServerLog" />
+  </category>
+</log4j:configuration>

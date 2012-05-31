@@ -2,6 +2,8 @@
 
 Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/) and your consumers. Let you scale out and maintain consumers easily.
 
+[The netcircle](www.thenetcircle.com) has been using it for more than 18 months. It helps us to consume more than 3 million job per day with around 25M memory and 2%cpu usage.
+
 ## Links
 
 - [What is Consumer Dispatcher and Why](https://github.com/jackyhung/consumer-dispatcher/wiki/What-is-Consumer-Dispatcher-and-Why) 
@@ -17,6 +19,8 @@ Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/
 - email: jackyhung81@gmail.com
 
 - weibo: http://www.weibo.com/jackyhung
+
+- company: http://www.thenetcircle.com
 
 ## Getting Started
  

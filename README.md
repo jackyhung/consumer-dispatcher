@@ -20,7 +20,7 @@ Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/
 
 ## Getting Started
  
-- download the jar file 
+- download the [jar file](https://raw.github.com/jackyhung/consumer-dispatcher/master/downloads/consumerdispatcher-0.1.1-jar-with-dependencies.jar) 
 
 - follow the steps described [here](https://github.com/jackyhung/consumer-dispatcher/wiki/How-to-use-it#wiki-howtorun)
 

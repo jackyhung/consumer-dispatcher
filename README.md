@@ -12,6 +12,8 @@ Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/
 
 - [How to use it](https://github.com/jackyhung/consumer-dispatcher/wiki/How-to-use-it)
 
+- [How to write my consumder code](https://github.com/jackyhung/consumer-dispatcher/wiki/How-to-write-my-Consumer-Code)
+
 - [Managing & Monitoring](https://github.com/jackyhung/consumer-dispatcher/wiki/Managing-&-Monitoring)
 
 - [Run in master-slave way](https://github.com/jackyhung/consumer-dispatcher/wiki/Run-in-master-slave-way)

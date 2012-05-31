@@ -26,6 +26,8 @@ Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/
 
 ## Developer Information
 
+- [compile, package and eclipse project](https://github.com/jackyhung/consumer-dispatcher/wiki/How-to-use-it#wiki-compile)
+
 - Consumer Dispatcher is setup to build using [Maven](http://maven.apache.org/)
 
 - You need JDK 1.6 + to build and run Consumer Dispatcher.

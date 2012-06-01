@@ -9,6 +9,23 @@
 
   <name>consumerdispatcher</name>
   <url>http://maven.apache.org</url>
+  <description>
+    Consumer Dispatcher works as a proxy between RabbitMQ and your consumers.
+    Let you scale out and maintain consumers easily.
+  </description>
+  
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  
+  <scm>
+    <url>https://github.com/jackyhung/consumer-dispatcher.git</url>
+    <connection>scm:git:git://github.com/jackyhung/consumer-dispatcher.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jackyhung/consumer-dispatcher.git</developerConnection>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

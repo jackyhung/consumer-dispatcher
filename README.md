@@ -40,3 +40,5 @@ Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/
 
 - You need JDK 1.6 + to build and run Consumer Dispatcher.
 
+- Apache License, Version 2.0
+

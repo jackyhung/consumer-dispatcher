@@ -2,6 +2,19 @@
 
 Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/) and your consumers. Let you scale out and maintain consumers easily.
 
+It provides:
+- avoid blocking consuming queues
+- adding/reducing number of consumers on the fly by clicking a button
+- load balance between consumers
+- purging queues by clicking a button
+- separating bad jobs from good ones in a queue and logging bad jobs to files
+- statistics
+- master - slave modle
+- adding more instance on the fly
+- etc.
+
+It can work with all http-based interfaces written in any language. 
+
 [The NetCircle](www.thenetcircle.com) has been using it for more than 18 months. It helps us to consume more than 6 million jobs per day with around 25M memory and 2%cpu usage.
 
 ## Links

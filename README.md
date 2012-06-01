@@ -3,6 +3,8 @@
 Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/) and your consumers. Let you scale out and maintain consumers easily.
 
 It provides:
+- managing consumers of different queues separately
+- serving queues for multiple sites with one instance
 - avoid blocking consuming queues
 - adding/reducing number of consumers on the fly by clicking a button
 - load balance between consumers

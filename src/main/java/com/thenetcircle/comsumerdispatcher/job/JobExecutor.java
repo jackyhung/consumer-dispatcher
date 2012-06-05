@@ -122,7 +122,7 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 				return true;
 			} else {
 				if(Bootstrap.outputError)
-					_logger.error("the result of job part is not right for q " + qname  + " on server " + vhost + ": "  + ", body: " + body);
+					_logger.error("the result of job part is not right for q " + qname  + " on server " + vhost + ": " + ", response" + result + ", body: " + body);
 				
 				if(logErrorJobToFile.get()) { // get logged to file, then acknowledge this job to queue
 					FileUtil.logJobRawDataToFile(FileUtil.getErrorJobFileName(this), body);

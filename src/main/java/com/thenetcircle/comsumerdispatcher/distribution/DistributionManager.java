@@ -90,6 +90,14 @@ public class DistributionManager {
 			runType = RUNTYPE_DIST_CLIENT;
 			initZkConnection(clientConfigPath);
 			
+			while(getLivingJoinedMemberNum() < 1) {
+				_logger.info("[Distribution] seems master is not up. wait for master to finishe starting up....");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+			}
+			
 		} else if (serverConfigPath != null) {
 			_logger.info("[Distribution] starts up as master, needs to start distribution server and populate data to server ....");
 			runType = RUNTYPE_DIST_SERVER; // this is master, need to start distribution server and populate data to server

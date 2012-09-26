@@ -36,6 +36,4 @@ public class Bootstrap {
 			_logger.error(e, e);
 		}
 	}
-	
-
 }

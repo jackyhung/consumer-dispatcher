@@ -121,7 +121,9 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 				_logger.info("the result of job for q " + qname + " on server " + vhost + ":" + result);
 				return true;
 			} else {
-				if(Bootstrap.outputError)
+				if(_logger.isErrorEnabled())
+					_logger.error("the result of job part is not right for q " + qname  + " on server " + vhost + ": " + ", response" + result);
+				if(_logger.isDebugEnabled())
 					_logger.error("the result of job part is not right for q " + qname  + " on server " + vhost + ": " + ", response" + result + ", body: " + body);
 				
 				if(logErrorJobToFile.get()) { // get logged to file, then acknowledge this job to queue
@@ -132,7 +134,7 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 				return false;
 			}
 		} catch (Exception e) {
-			if(Bootstrap.outputError)
+			if(_logger.isErrorEnabled())
 				_logger.error("the status of job part is not right for q " + qname  + " on server " + vhost + ": " + e.getMessage());
 			
 			if(logErrorJobToFile.get()) { // get logged to file, then acknowledge this job to queue

@@ -13,8 +13,6 @@ import com.thenetcircle.comsumerdispatcher.job.JobAssign;
 public class Bootstrap {
 	private static Log _logger = LogFactory.getLog(Bootstrap.class);
 	
-	public static boolean outputError = true;
-	
 	public static boolean once = false;
 	
 	public static void main(String[] args) {
@@ -22,8 +20,6 @@ public class Bootstrap {
 		if (args.length > 0)
 			filePath = args[0];
 		if (args.length > 1)
-			outputError = "on".equals(args[1]);
-		if (args.length > 2)
 			once = "once".equals(args[2]);
 		
 		try {

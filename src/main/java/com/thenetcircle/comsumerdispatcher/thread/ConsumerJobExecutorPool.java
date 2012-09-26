@@ -14,6 +14,8 @@ import javax.management.ObjectName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import com.thenetcircle.comsumerdispatcher.distribution.watcher.CountChangedWatcher;
 import com.thenetcircle.comsumerdispatcher.distribution.watcher.IJobPoolLevelWatcher;
@@ -143,6 +145,18 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
 	public void logErrorJobToFile(boolean onOrOff) {
 		this.logErrorJobToFile.set(onOrOff);
 		_logger.info("[Log Error Job] is " + onOrOff + " for queue: " + job.getQueue());
+	}
+	
+	@Override
+	public String getLoggingLevel() {
+		return Logger.getRootLogger().getLevel().toString() ;
+	}
+	
+	@Override
+	public void setLoggingLevel(String level) {
+		_logger.warn("Setting logging level to: " + level);
+        Level newLevel = Level.toLevel(level, Level.INFO);
+        Logger.getRootLogger().setLevel(newLevel);
 	}
 	
 	//------------------------ Worker ------------------------

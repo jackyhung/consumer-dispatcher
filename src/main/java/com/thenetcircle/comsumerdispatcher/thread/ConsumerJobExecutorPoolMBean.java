@@ -38,5 +38,11 @@ public interface ConsumerJobExecutorPoolMBean {
     public void purgeQueue();
 
 	public void logErrorJobToFile(boolean onOrOff);
+	
+	public String getLoggingLevel();
 
+	/**
+	 * @param level
+	 */
+	public void setLoggingLevel(String level);
 }

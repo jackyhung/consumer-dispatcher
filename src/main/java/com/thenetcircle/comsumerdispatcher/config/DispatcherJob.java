@@ -154,4 +154,19 @@ public class DispatcherJob {
 	public void setUrlhost(String urlhost) {
 		this.urlhost = urlhost;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "DispatcherJob [name=" + name + ", url=" + url + ", queue="
+				+ queue + ", exchange=" + exchange + ", type=" + type
+				+ ", timeout=" + timeout + ", count=" + count + ", urlhost="
+				+ urlhost + ", encoding=" + encoding + ", defaultTimeout="
+				+ defaultTimeout + ", defaultCount=" + defaultCount
+				+ ", defaultUrl=" + defaultUrl + ", defaultUrlHost="
+				+ defaultUrlHost + ", defaultEncoding=" + defaultEncoding
+				+ ", fetcherQConf=" + fetcherQConf + "]";
+	}
 }

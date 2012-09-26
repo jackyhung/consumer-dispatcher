@@ -28,7 +28,7 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 	private long DELIVERY_WAIT_TIMEOUT = 3000;
 
 	public void run() {
-		_logger.info("started: " + this.getName() + " with timeout: " + this.getTimeout() + ", count: " + this.getCount() + ", Q name:" + this.getQueue() + ", exchange:" + this.getExchange() + ", type: " + this.getType() + ", urlhost: " + this.getUrlhost() + ", url: " + this.getUrl() + ", encoding:" + this.getEncoding());
+		_logger.info("started: " + this.getName() + " with params: " + super.toString());
 		
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setUsername(this.getFetcherQConf().getUserName());
@@ -70,9 +70,9 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 				        if(null == delivery)
 				        	continue;
 				    } catch (InterruptedException ie) {
-				    	_logger.info("[THREAD INTERRUPT] consumer get interrupted :" + queueName);
+				    	_logger.error("[THREAD INTERRUPT] consumer get interrupted :" + queueName);
 				    	run = false;
-				        break;
+				    	continue;
 				    }
 				    
 				    byte[] bobyByte = delivery.getBody();

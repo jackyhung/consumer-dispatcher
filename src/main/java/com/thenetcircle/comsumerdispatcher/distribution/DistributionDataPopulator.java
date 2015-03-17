@@ -72,6 +72,8 @@ public class DistributionDataPopulator {
 			createNode(zk, String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQHOST, domain, queueJobNodeName), je.getUrlhost());
 			// add timeout node
 			createNode(zk, String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQTIMEOUT, domain, queueJobNodeName), String.valueOf(je.getTimeout()));
+			// add prefetchCount node
+			createNode(zk, String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQPREFETCH, domain, queueJobNodeName), String.valueOf(je.getPrefetchCount()));
 			// add encoding node
 			createNode(zk, String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQENCODING, domain, queueJobNodeName), je.getEncoding());
 			// create EPHEMERAL_SEQUENTIAL purge node, so that the other application can add sub nodes to it later after they stop all threads

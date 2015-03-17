@@ -14,7 +14,7 @@
     <param name="Threshold" value="info"></param>
     <param name="ImmediateFlush" value="true"></param>
     <param name="Encoding" value="GBK"></param>
-    <param name="File" value="./consumerDispatcherLog.log"></param>
+    <param name="File" value="/var/log/consumerDispatcher/consumerDispatcherLog.log"></param>
     <param name="Append" value="true"></param>
     <param name="BufferedIO" value="false"></param>
     <param name="MaxFileSize" value="10000KB"></param>
@@ -27,7 +27,7 @@
     <param name="Threshold" value="info"></param>
     <param name="ImmediateFlush" value="true"></param>
     <param name="Encoding" value="GBK"></param>
-    <param name="File" value="./serverLog.log"></param>
+    <param name="File" value="/var/log/consumerDispatcher/serverLog.log"></param>
     <param name="Append" value="true"></param>
     <param name="BufferedIO" value="false"></param>
     <param name="MaxFileSize" value="10000KB"></param>

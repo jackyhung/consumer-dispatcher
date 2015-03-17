@@ -46,6 +46,8 @@ public class FileConfigLoader implements ConfigLoader {
 		int defCount = Integer.valueOf(reqPre.getText());
 		reqPre = doc.selectSingleNode("//jobs/conf/request-timeout");
 		int defTimeout = Integer.valueOf(reqPre.getText());
+		reqPre = doc.selectSingleNode("//jobs/conf/prefetch-count");
+		int defPrefetchCount = Integer.valueOf(reqPre.getText());
 		reqPre = doc.selectSingleNode("//jobs/conf/encoding");
 		String defEncoding = null;
 		if (reqPre != null)
@@ -62,6 +64,7 @@ public class FileConfigLoader implements ConfigLoader {
 				je.setDefaultUrlHost(defReqHost);
 				je.setDefaultCount(defCount);
 				je.setDefaultTimeout(defTimeout);
+				je.setDefaultPrefetchCount(defPrefetchCount);
 				je.setDefaultEncoding(defEncoding);
 				QueueConf qc = DispatcherConfig.getInstance().getServers().get(element.attributeValue("server"));
 				je.setFetcherQConf(qc);

@@ -94,6 +94,12 @@ public class DistributionTreeConstants {
 	public static String CD_ROOT_DOMAIN_QUEUEONSERVER_REQTIMEOUT = CD_ROOT_DOMAIN_QUEUEONSERVER + "/reqtimeout";
 	
 	/**
+	 *\ /C_D/poppen.de/payment-snowball/reqprefetch
+	 * it's value is prefetch count for amqp
+	 */	
+	public static String CD_ROOT_DOMAIN_QUEUEONSERVER_REQPREFETCH = CD_ROOT_DOMAIN_QUEUEONSERVER + "/reqprefetch";
+	
+	/**
 	 *\ /C_D/poppen.de/payment-snowball/reqencoding
 	 * it's value is the encoding for http request
 	 */	

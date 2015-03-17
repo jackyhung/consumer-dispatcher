@@ -30,6 +30,8 @@
     <request-count>1</request-count>
     <!-- request-timeout: the http request timeout in mill-second for each job definition -->
     <request-timeout>30000</request-timeout>
+    <!-- prefetch-count: the prefetch count for amqp -->
+    <prefetch-count>0</prefetch-count>
   </conf>
    
   <!-- job: job definition, not all attribute values are necessary,
@@ -50,12 +52,13 @@
   <!-- urlhost: sometime you will have the same url for different sites with "host" to identify the destination. 
                 in this case, you need to specify the urlhost value. -->
   <!-- encoding: default is utf-8. in most case, you dont need to change it. 
-                 Consumer Dispatcher use this encoding to encode the content fetched from the queue and call your code by send http request. -->              
+                 Consumer Dispatcher use this encoding to encode the content fetched from the queue and call your code by send http request. -->    
+  <!-- prefetchCount: the prefetch-count for amqp -->          
   <job name="text_mail" server="a" queue="text_mail" exchange="text_mail_router" 
        timeout="20000" count="1" type="direct" 
-       url="http://ip:port/consumerDispatch/dispatch" urlhost="jacky.domain" encoding="utf-8"/>
+       url="http://ip:port/consumerDispatch/dispatch" urlhost="jacky.domain" encoding="utf-8" prefetchCount="50"/>
   
   <!-- this example implicates queue="bounce_mail"m exchange="bounce_mail_router" 
-       timeout=30000 count=1 type=direct url=http://develop.youdomain.lab/consumerDispatch/  -->
+       timeout=30000 count=1 type=direct url=http://develop.youdomain.lab/consumerDispatch/ prefetchCount="0" -->
   <job name="bounce_mail" server="a" />
 </jobs>

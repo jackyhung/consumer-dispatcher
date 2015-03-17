@@ -58,6 +58,7 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 			boolean autoAck = false;
 			QueueingConsumer consumer = new QueueingConsumer(channel);
 			channel.basicConsume(queueName, autoAck, consumer);
+			channel.basicQos(getPrefetchCount());
 			
 			boolean run = true;
 			while (run) {
@@ -122,9 +123,9 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 				return true;
 			} else {
 				if(_logger.isErrorEnabled())
-					_logger.error("the result of job part is not right for q " + qname  + " on server " + vhost + ": " + ", response" + result);
+					_logger.error("the result of job part is not right for q " + qname  + " on server " + vhost);
 				if(_logger.isDebugEnabled())
-					_logger.error("the result of job part is not right for q " + qname  + " on server " + vhost + ": " + ", response" + result + ", body: " + body);
+					_logger.debug("the result of job part is not right for q " + qname  + " on server " + vhost + ": " + ", body: " + body + ", response: " + result);
 				
 				if(logErrorJobToFile.get()) { // get logged to file, then acknowledge this job to queue
 					FileUtil.logJobRawDataToFile(FileUtil.getErrorJobFileName(this), body);

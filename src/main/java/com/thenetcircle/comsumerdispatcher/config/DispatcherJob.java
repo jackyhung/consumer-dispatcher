@@ -12,12 +12,14 @@ public class DispatcherJob {
 	protected int count = 0;
 	protected String urlhost;
 	protected String encoding;
+	protected int prefetchCount = 0;
 	
 	protected int defaultTimeout = 30000;
 	protected int defaultCount = 0;
 	protected String defaultUrl;
 	protected String defaultUrlHost = "";
 	protected String defaultEncoding;
+	protected int defaultPrefetchCount = 0;
 
 	public String getQueue() {
 		if (queue != null && queue.length() > 0) return queue;
@@ -154,6 +156,35 @@ public class DispatcherJob {
 	public void setUrlhost(String urlhost) {
 		this.urlhost = urlhost;
 	}
+	
+	/**
+	 * @return the prefetchCount
+	 */
+	public int getPrefetchCount() {
+		if (prefetchCount <= 0) return defaultPrefetchCount;
+		return prefetchCount;
+	}
+
+	/**
+	 * @param prefetchCount the prefetchCount to set
+	 */
+	public void setPrefetchCount(int prefetchCount) {
+		this.prefetchCount = prefetchCount;
+	}
+
+	/**
+	 * @return the defaultPrefetchCount
+	 */
+	public int getDefaultPrefetchCount() {
+		return defaultPrefetchCount;
+	}
+
+	/**
+	 * @param defaultPrefetchCount the defaultPrefetchCount to set
+	 */
+	public void setDefaultPrefetchCount(int defaultPrefetchCount) {
+		this.defaultPrefetchCount = defaultPrefetchCount;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -163,10 +194,11 @@ public class DispatcherJob {
 		return "DispatcherJob [name=" + name + ", url=" + url + ", queue="
 				+ queue + ", exchange=" + exchange + ", type=" + type
 				+ ", timeout=" + timeout + ", count=" + count + ", urlhost="
-				+ urlhost + ", encoding=" + encoding + ", defaultTimeout="
-				+ defaultTimeout + ", defaultCount=" + defaultCount
-				+ ", defaultUrl=" + defaultUrl + ", defaultUrlHost="
-				+ defaultUrlHost + ", defaultEncoding=" + defaultEncoding
-				+ ", fetcherQConf=" + fetcherQConf + "]";
+				+ urlhost + ", encoding=" + encoding + ", prefetchCount="
+				+ prefetchCount + ", defaultTimeout=" + defaultTimeout
+				+ ", defaultCount=" + defaultCount + ", defaultUrl="
+				+ defaultUrl + ", defaultUrlHost=" + defaultUrlHost
+				+ ", defaultEncoding=" + defaultEncoding + ", fetcherQConf="
+				+ fetcherQConf + "]";
 	}
 }

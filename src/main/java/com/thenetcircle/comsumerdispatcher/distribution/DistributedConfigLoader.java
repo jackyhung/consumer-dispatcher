@@ -74,6 +74,7 @@ public class DistributedConfigLoader implements ConfigLoader {
 							String host = getNodeValue(String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQHOST, domain, queueJobNodeName));
 							String timeout = getNodeValue(String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQTIMEOUT, domain, queueJobNodeName));
 							String prefetchCount = getNodeValue(String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQPREFETCH, domain, queueJobNodeName));
+							String retry = getNodeValue(String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQRETRY, domain, queueJobNodeName));
 							String encoding = getNodeValue(String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_REQENCODING, domain, queueJobNodeName));
 							String queueName = getNodeValue(String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_QBINDS_QUEUE, domain, queueJobNodeName));
 							String exchange = getNodeValue(String.format(DistributionTreeConstants.CD_ROOT_DOMAIN_QUEUEONSERVER_QBINDS_EXCHANGE, domain, queueJobNodeName));
@@ -93,6 +94,7 @@ public class DistributedConfigLoader implements ConfigLoader {
 							je.setQueue(queueName);
 							je.setTimeout(Integer.valueOf(timeout));
 							je.setPrefetchCount(Integer.valueOf(prefetchCount));
+							je.setRetry(Integer.valueOf(retry));
 							je.setType(type);
 							je.setUrl(url);
 							je.setUrlhost(host);

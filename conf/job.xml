@@ -32,6 +32,9 @@
     <request-timeout>30000</request-timeout>
     <!-- prefetch-count: the prefetch count for amqp -->
     <prefetch-count>0</prefetch-count>
+    <!-- retry: default = 1, if dispatcher doesnt get 'ok', it will keep retrying;  
+         if set this value to 0, the dispatcher wont do the retry in any case.    -->
+    <retry>1</retry>
   </conf>
    
   <!-- job: job definition, not all attribute values are necessary,
@@ -54,9 +57,10 @@
   <!-- encoding: default is utf-8. in most case, you dont need to change it. 
                  Consumer Dispatcher use this encoding to encode the content fetched from the queue and call your code by send http request. -->    
   <!-- prefetchCount: the prefetch-count for amqp -->          
+  <!-- retry: if retry is enabled or not. 1 is enabled , 0 is not -->          
   <job name="text_mail" server="a" queue="text_mail" exchange="text_mail_router" 
        timeout="20000" count="1" type="direct" 
-       url="http://ip:port/consumerDispatch/dispatch" urlhost="jacky.domain" encoding="utf-8" prefetchCount="50"/>
+       url="http://ip:port/consumerDispatch/dispatch" urlhost="jacky.domain" encoding="utf-8" prefetchCount="50" retry="0"/>
   
   <!-- this example implicates queue="bounce_mail"m exchange="bounce_mail_router" 
        timeout=30000 count=1 type=direct url=http://develop.youdomain.lab/consumerDispatch/ prefetchCount="0" -->

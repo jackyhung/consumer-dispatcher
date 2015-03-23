@@ -13,6 +13,7 @@ public class DispatcherJob {
 	protected String urlhost;
 	protected String encoding;
 	protected int prefetchCount = 0;
+	protected int retry = 1;
 	
 	protected int defaultTimeout = 30000;
 	protected int defaultCount = 0;
@@ -20,6 +21,7 @@ public class DispatcherJob {
 	protected String defaultUrlHost = "";
 	protected String defaultEncoding;
 	protected int defaultPrefetchCount = 0;
+	protected int defaultRetry = 1;
 
 	public String getQueue() {
 		if (queue != null && queue.length() > 0) return queue;
@@ -186,6 +188,35 @@ public class DispatcherJob {
 		this.defaultPrefetchCount = defaultPrefetchCount;
 	}
 
+	/**
+	 * @return the retry
+	 */
+	public int getRetry() {
+		if (retry < 0) return getDefaultRetry();
+		return retry;
+	}
+
+	/**
+	 * @param retry the retry to set
+	 */
+	public void setRetry(int retry) {
+		this.retry = retry;
+	}
+
+	/**
+	 * @return the defaultRetry
+	 */
+	public int getDefaultRetry() {
+		return defaultRetry;
+	}
+
+	/**
+	 * @param defaultRetry the defaultRetry to set
+	 */
+	public void setDefaultRetry(int defaultRetry) {
+		this.defaultRetry = defaultRetry;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -195,10 +226,12 @@ public class DispatcherJob {
 				+ queue + ", exchange=" + exchange + ", type=" + type
 				+ ", timeout=" + timeout + ", count=" + count + ", urlhost="
 				+ urlhost + ", encoding=" + encoding + ", prefetchCount="
-				+ prefetchCount + ", defaultTimeout=" + defaultTimeout
-				+ ", defaultCount=" + defaultCount + ", defaultUrl="
-				+ defaultUrl + ", defaultUrlHost=" + defaultUrlHost
-				+ ", defaultEncoding=" + defaultEncoding + ", fetcherQConf="
+				+ prefetchCount + ", retry=" + retry + ", defaultTimeout="
+				+ defaultTimeout + ", defaultCount=" + defaultCount
+				+ ", defaultUrl=" + defaultUrl + ", defaultUrlHost="
+				+ defaultUrlHost + ", defaultEncoding=" + defaultEncoding
+				+ ", defaultPrefetchCount=" + defaultPrefetchCount
+				+ ", defaultRetry=" + defaultRetry + ", fetcherQConf="
 				+ fetcherQConf + "]";
 	}
 }

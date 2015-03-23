@@ -100,6 +100,12 @@ public class DistributionTreeConstants {
 	public static String CD_ROOT_DOMAIN_QUEUEONSERVER_REQPREFETCH = CD_ROOT_DOMAIN_QUEUEONSERVER + "/reqprefetch";
 	
 	/**
+	 *\ /C_D/poppen.de/payment-snowball/reqretry
+	 * it's value is for retry setting
+	 */	
+	public static String CD_ROOT_DOMAIN_QUEUEONSERVER_REQRETRY = CD_ROOT_DOMAIN_QUEUEONSERVER + "/reqretry";
+	
+	/**
 	 *\ /C_D/poppen.de/payment-snowball/reqencoding
 	 * it's value is the encoding for http request
 	 */	

@@ -132,6 +132,11 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 					return true;
 				}
 				
+				if(getRetry() == 0) {  // disable retry
+					_logger.info("get error, but wont retry for q " + qname  + " on server " + vhost + ": " + ", body: " + body + ", response: " + result);
+					return true;
+				}
+				
 				return false;
 			}
 		} catch (Exception e) {

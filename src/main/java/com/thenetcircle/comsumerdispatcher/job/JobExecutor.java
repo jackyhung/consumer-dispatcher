@@ -56,9 +56,12 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 			channel.queueBind(queueName, exchangeName, routingKey);
 			
 			boolean autoAck = false;
+			
 			QueueingConsumer consumer = new QueueingConsumer(channel);
-			channel.basicConsume(queueName, autoAck, consumer);
 			channel.basicQos(getPrefetchCount());
+			channel.basicConsume(queueName, autoAck, consumer);
+			//channel.basicQos(getPrefetchCount());
+			
 			
 			boolean run = true;
 			while (run) {

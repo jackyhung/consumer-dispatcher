@@ -36,6 +36,9 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 		factory.setVirtualHost(this.getFetcherQConf().getVhost());
 		factory.setHost(this.getFetcherQConf().getHost());
 		factory.setPort(this.getFetcherQConf().getPort());
+		factory.setAutomaticRecoveryEnabled(true);
+		factory.setNetworkRecoveryInterval(5000);
+		//factory.setRequestedHeartbeat();
 		
 		Connection conn = null;
 		Channel channel = null;

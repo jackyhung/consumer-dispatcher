@@ -1,5 +1,5 @@
 package com.thenetcircle.comsumerdispatcher.distribution.watcher;
 
-public interface INewDomainWatcher {
+public interface INewUrlWatcher extends IJobPoolLevelWatcher {
 
 }

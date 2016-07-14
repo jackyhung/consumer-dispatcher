@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import com.thenetcircle.comsumerdispatcher.distribution.watcher.CountChangedWatcher;
 import com.thenetcircle.comsumerdispatcher.distribution.watcher.IJobPoolLevelWatcher;
+import com.thenetcircle.comsumerdispatcher.distribution.watcher.NewUrlWatcher;
 import com.thenetcircle.comsumerdispatcher.distribution.watcher.QueuePurgeWatcher;
 import com.thenetcircle.comsumerdispatcher.job.JobExecutor;
 
@@ -34,7 +35,7 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
     private final AtomicInteger activeExecutorCount = new AtomicInteger(0);
     private final AtomicBoolean logErrorJobToFile = new AtomicBoolean(false);
     
-    private IJobPoolLevelWatcher purgeWatcher, countChangedWatcher;
+    private IJobPoolLevelWatcher purgeWatcher, countChangedWatcher, urlChangedWatcher;
 
     public ConsumerJobExecutorPool(JobExecutor job) {
        	String jmxType = job.getQueue() + "_" + job.getFetcherQConf().getHost() + "_" + job.getFetcherQConf().getVhost();
@@ -59,6 +60,8 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
             purgeWatcher.register(this);
             countChangedWatcher = new CountChangedWatcher();
             countChangedWatcher.register(this);
+            urlChangedWatcher = new NewUrlWatcher();
+            urlChangedWatcher.register(this);
         }
         catch (Exception e)
         {
@@ -91,6 +94,20 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
     		addJobExecutorByNum(num - currentNum);
     	}
     }
+    
+    public void refreshUrl(String newUrl) {
+    	String oldUrl = job.getUrl();
+    	job.setUrl(newUrl);
+    	int currentNum = activeExecutorCount.intValue();
+    	setJobExecutorNum(0);
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+		}
+    	setJobExecutorNum(currentNum);
+    	_logger.info("[THREAD REFRESH URL] queue: " + job.getQueue() + "changed url from: " + oldUrl + " to new one: " + newUrl);
+    }
+    
     //-----------------------  JMX ---------------------------
     
 	@Override
@@ -158,6 +175,22 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
         Level newLevel = Level.toLevel(level, Level.INFO);
         Logger.getRootLogger().setLevel(newLevel);
 	}
+	
+	@Override
+	public void setJobUrl(String url) {
+		_logger.warn("[Set URL] going to set url: " + url + " for queue: " + job.getQueue());
+		NewUrlWatcher ucw = (NewUrlWatcher) urlChangedWatcher;
+		ucw.setNewUrl(url);
+		ucw.execute();
+	}
+	
+	@Override
+	public String getJobUrl() {
+		return job.getUrl();
+	}
+	
+	
+	//-----------------------  JMX END ------------------------
 	
 	//------------------------ Worker ------------------------
     private final class Worker implements Runnable {

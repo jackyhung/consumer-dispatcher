@@ -1,4 +1,4 @@
-#The Consumer Dispatcher Project
+# The Consumer Dispatcher Project
 
 Consumer Dispatcher works as a proxy between [RabbitMQ](http://www.rabbitmq.com/) and your consumers. Let you scale out and maintain consumers easily.
 
@@ -57,4 +57,4 @@ It can work with all http-based interfaces written in any language.
 
 - Apache License, Version 2.0
 
-##There definitely are loooooooot of room to improve Consumer Dispatcher. Any suggestion would be appreciated . Thank you for your support!
+## There definitely are loooooooot of room to improve Consumer Dispatcher. Any suggestion would be appreciated . Thank you for your support!

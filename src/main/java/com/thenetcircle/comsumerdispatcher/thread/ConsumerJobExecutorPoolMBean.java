@@ -45,4 +45,11 @@ public interface ConsumerJobExecutorPoolMBean {
 	 * @param level
 	 */
 	public void setLoggingLevel(String level);
+	
+	/**
+	 * set the url for the job.
+	 * @param url
+	 */
+	public void setJobUrl(String url);
+	public String getJobUrl();
 }

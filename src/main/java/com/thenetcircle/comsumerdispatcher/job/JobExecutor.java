@@ -36,6 +36,9 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 		factory.setVirtualHost(this.getFetcherQConf().getVhost());
 		factory.setHost(this.getFetcherQConf().getHost());
 		factory.setPort(this.getFetcherQConf().getPort());
+		factory.setAutomaticRecoveryEnabled(true);
+		factory.setNetworkRecoveryInterval(5000);
+		//factory.setRequestedHeartbeat();
 		
 		Connection conn = null;
 		Channel channel = null;
@@ -74,7 +77,7 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 				        if(null == delivery)
 				        	continue;
 				    } catch (InterruptedException ie) {
-				    	_logger.error("[THREAD INTERRUPT] consumer get interrupted :" + queueName);
+				    	_logger.error("[THREAD INTERRUPT] consumer get interrupted :" + queueName, ie);
 				    	run = false;
 				    	continue;
 				    }
@@ -96,12 +99,12 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 	                runLock.unlock();
 	            }
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			_logger.error(e, e);
 		} finally {
 			try {
 				if (channel != null) channel.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				_logger.error(e, e);
 			}
 			try {

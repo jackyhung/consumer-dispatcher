@@ -1,6 +1,7 @@
 package com.thenetcircle.comsumerdispatcher.util;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,10 +34,14 @@ public class QueueUtil {
 			return true;
 		} catch (IOException e) {
 			_logger.error(e, e);
+		} catch (TimeoutException e) {
+			_logger.error(e, e);
 		} finally {
 			try {
 				if (channel != null) channel.close();
 			} catch (IOException e) {
+				_logger.error(e, e);
+			} catch (TimeoutException e) {
 				_logger.error(e, e);
 			}
 			try {

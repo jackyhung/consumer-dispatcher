@@ -264,7 +264,11 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
 		workers.remove(w);
 		activeExecutorCount.decrementAndGet();
 		
-		_logger.info("Thread is quitting...: " + w.thread.getName());
+		if(t == null) {
+			_logger.info("Thread is quitting...: " + w.thread.getName());
+		} else {
+			_logger.error("Thread is quitting...: " + w.thread.getName(), t);
+		}
     }
     
     protected HashSet<Worker> getWorkersToBeRemoved(int numToRemove) {

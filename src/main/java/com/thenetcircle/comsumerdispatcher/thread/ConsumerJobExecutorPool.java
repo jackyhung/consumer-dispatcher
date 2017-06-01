@@ -234,16 +234,22 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
             if (Thread.interrupted())
                 thread.interrupt();
 
-            boolean ran = false;
-            try {
-                task.run();
-                ran = true;
-                afterExecute(this, null);
-            } catch (RuntimeException ex) {
-                if (!ran)
-                    afterExecute(this, ex);
-                throw ex;
-            }
+            boolean run = true;
+            while (run) {
+	            try {
+	                task.run();
+	            } catch (Exception ex) {
+	            	_logger.error(ex, ex);
+	            	try {
+						Thread.sleep(5000);// before restart, sleep
+						_logger.info("[THREAD INTERRUPT] thread quitting:" + thread.getName() + ", will restart");
+					} catch (InterruptedException e) {
+					}
+	                //afterExecute(this, ex);
+	                // never quit loop
+	                //will run the task again by creating a new connection to queue server
+	            }
+			}
         }
 
     }
@@ -289,6 +295,7 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
 		String tname = w.thread.getName();
 		while(!w.thread.getState().equals(State.TERMINATED)){}
 		
+		afterExecute(w, null);
 		_logger.info("[THREAD INTERRUPT] Thread is stopped...: " + tname);
 	}
 	

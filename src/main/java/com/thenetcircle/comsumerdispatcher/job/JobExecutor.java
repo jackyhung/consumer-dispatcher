@@ -76,7 +76,7 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 				        delivery = consumer.nextDelivery(DELIVERY_WAIT_TIMEOUT);
 				        if(null == delivery)
 				        	continue;
-				    } catch (InterruptedException ie) {
+				    } catch (Exception ie) {
 				    	_logger.error("[THREAD INTERRUPT] consumer get interrupted :" + queueName, ie);
 				    	run = false;
 				    	continue;
@@ -103,12 +103,12 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 			_logger.error(e, e);
 		} finally {
 			try {
-				if (channel != null) channel.close();
+				if (channel != null && channel.isOpen()) channel.close();
 			} catch (Exception e) {
 				_logger.error(e, e);
 			}
 			try {
-				if (conn!= null) conn.close();
+				if (conn!= null && conn.isOpen()) conn.close();
 			} catch (IOException e) {
 				_logger.error(e, e);
 			}

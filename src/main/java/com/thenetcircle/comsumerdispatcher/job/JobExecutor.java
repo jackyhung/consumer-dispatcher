@@ -3,6 +3,7 @@ package com.thenetcircle.comsumerdispatcher.job;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
@@ -13,9 +14,13 @@ import org.apache.commons.logging.LogFactory;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.QueueingConsumer;
+import com.rabbitmq.client.ShutdownSignalException;
 import com.thenetcircle.comsumerdispatcher.Bootstrap;
 import com.thenetcircle.comsumerdispatcher.config.DispatcherJob;
+import com.thenetcircle.comsumerdispatcher.job.exception.JobFailedException;
+import com.thenetcircle.comsumerdispatcher.job.exception.JobStopException;
 import com.thenetcircle.comsumerdispatcher.util.FileUtil;
 import com.thenetcircle.comsumerdispatcher.util.HttpUtil;
 
@@ -42,13 +47,13 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 		
 		Connection conn = null;
 		Channel channel = null;
+		String queueName = getQueue();//"image_admin";
 		try {
 			conn = factory.newConnection();
 			// in one thread 
 			channel = conn.createChannel();
 			String exchangeName = getExchange();//"image_admin_exchange";
 			String type = this.getType();
-			String queueName = getQueue();//"image_admin";
 			boolean exclusive = false;
 			boolean autoDelete = false;
 			boolean durable = true;
@@ -68,20 +73,14 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 			
 			boolean run = true;
 			while (run) {
-				final ReentrantLock runLock = this.runLock;
+            	final ReentrantLock runLock = this.runLock;
 	            runLock.lock();
 	            try {
 				    QueueingConsumer.Delivery delivery;
-				    try {
-				        delivery = consumer.nextDelivery(DELIVERY_WAIT_TIMEOUT);
-				        if(null == delivery)
-				        	continue;
-				    } catch (Exception ie) {
-				    	_logger.error("[THREAD INTERRUPT] consumer get interrupted :" + queueName, ie);
-				    	run = false;
-				    	continue;
-				    }
-				    
+			        delivery = consumer.nextDelivery(DELIVERY_WAIT_TIMEOUT);
+			        if(null == delivery)
+			        	continue;
+			    
 				    byte[] bobyByte = delivery.getBody();
 				    String bodyStr = new String(bobyByte, this.getEncoding());//"US-ASCII", "utf-8"
 				    
@@ -89,18 +88,31 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 						channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 						
 						completedJobs.incrementAndGet();
-						_logger.info("ack meg:" + delivery.getEnvelope().getDeliveryTag());
+						if(_logger.isDebugEnabled()) {
+							_logger.debug("ack meg:" + delivery.getEnvelope().getDeliveryTag());
+						}
 					} else {
 						channel.basicReject(delivery.getEnvelope().getDeliveryTag(), true);
 					}
 				    
 				    if (Bootstrap.once) run = false;
+			    } catch (IOException ioe) {   // the exception of io, continue the loop process , retry!
+			    	_logger.error("[THREAD INTERRUPT] got error, but will continue:" + queueName, ioe);
+			    	continue;
+			    } catch (ShutdownSignalException se) { // got the queue connection error, quit the loop, let the Pool to start a new connection.
+			    	throw new JobFailedException("[THREAD INTERRUPT] got queue error:" + queueName, se);
+			    } catch (ConsumerCancelledException ce) { // got the queue connection error, quit the loop, let the Pool to start a new connection.
+			    	throw new JobFailedException("[THREAD INTERRUPT] got queue consumer error:" + queueName, ce);
+            	} catch (InterruptedException ie) { // got the signal to quit. and also the Pool should STOP this job.
+			    	throw new JobStopException("[THREAD INTERRUPT] got quit signal:" + queueName, ie);
 	            } finally {
 	                runLock.unlock();
 	            }
-			}
-		} catch (Exception e) {
-			_logger.error(e, e);
+			} // end loop
+		} catch (IOException ioe) {
+			throw new JobStopException("[THREAD INTERRUPT] got certain error:" + queueName, ioe);
+		} catch (TimeoutException te) {
+			throw new JobStopException("[THREAD INTERRUPT] got certain error:" + queueName, te);
 		} finally {
 			try {
 				if (channel != null && channel.isOpen()) channel.close();
@@ -125,7 +137,9 @@ public class JobExecutor extends DispatcherJob implements Runnable, Cloneable {
 			String result = HttpUtil.sendHttpPost(this.getUrl(), this.getUrlhost(), map, this.getTimeout());
 			if(null != result) result = result.trim();
 			if ("ok".equalsIgnoreCase(result)) {
-				_logger.info("the result of job for q " + qname + " on server " + vhost + ":" + result);
+				if(_logger.isDebugEnabled()) {
+					_logger.debug("the result of job for q " + qname + " on server " + vhost + ":" + result);
+				}
 				return true;
 			} else {
 				if(_logger.isErrorEnabled())

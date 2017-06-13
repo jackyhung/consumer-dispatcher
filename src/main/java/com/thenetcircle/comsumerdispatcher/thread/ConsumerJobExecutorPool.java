@@ -22,6 +22,8 @@ import com.thenetcircle.comsumerdispatcher.distribution.watcher.IJobPoolLevelWat
 import com.thenetcircle.comsumerdispatcher.distribution.watcher.NewUrlWatcher;
 import com.thenetcircle.comsumerdispatcher.distribution.watcher.QueuePurgeWatcher;
 import com.thenetcircle.comsumerdispatcher.job.JobExecutor;
+import com.thenetcircle.comsumerdispatcher.job.exception.JobFailedException;
+import com.thenetcircle.comsumerdispatcher.job.exception.JobStopException;
 
 public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
 	private static Log _logger = LogFactory.getLog(ConsumerJobExecutorPool.class);
@@ -238,8 +240,8 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
             while (run) {
 	            try {
 	                task.run();
-	            } catch (Exception ex) {
-	            	_logger.error(ex, ex);
+	            } catch (JobFailedException jfe) { // will retry
+	            	_logger.error(jfe, jfe);
 	            	try {
 						Thread.sleep(5000);// before restart, sleep
 						_logger.info("[THREAD INTERRUPT] thread quitting:" + thread.getName() + ", will restart");
@@ -248,6 +250,13 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
 	                //afterExecute(this, ex);
 	                // never quit loop
 	                //will run the task again by creating a new connection to queue server
+	            	
+	            } catch (JobStopException jse) { // wont retry
+	            	_logger.error(jse, jse);
+	            	run = false;
+	            } catch (Exception e) { // wont retry
+	            	_logger.error(e, e);
+	            	run = false;
 	            }
 			}
         }
@@ -282,6 +291,7 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
 		            workers.add(w);
 		            activeExecutorCount.incrementAndGet();
 		            t.start();
+		            _logger.info("[Adding Job Executor] : " + job.toString());
 		        }
 			} catch (CloneNotSupportedException e) {
 				_logger.error(e, e);

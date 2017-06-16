@@ -253,9 +253,11 @@ public class ConsumerJobExecutorPool implements ConsumerJobExecutorPoolMBean {
 	            	
 	            } catch (JobStopException jse) { // wont retry
 	            	_logger.error(jse, jse);
+	            	afterExecute(this, null);
 	            	run = false;
 	            } catch (Exception e) { // wont retry
 	            	_logger.error(e, e);
+	            	afterExecute(this, null);
 	            	run = false;
 	            }
 			}

@@ -17,8 +17,6 @@ It provides:
 
 It can work with all http-based interfaces written in any language. 
 
-[The NetCircle](www.thenetcircle.com) has been using it for more than 18 months. It helps us to consume more than 6 million(the amount depends on your businsess type. Consumer Dispatcher wont be your bottleneck) jobs per day with around 25M memory and 2%cpu usage.
-
 ## Links
 
 - [What is Consumer Dispatcher and Why](https://github.com/jackyhung/consumer-dispatcher/wiki/What-is-Consumer-Dispatcher-and-Why) 
@@ -39,7 +37,6 @@ It can work with all http-based interfaces written in any language.
 
 - weibo: http://www.weibo.com/jackyhung
 
-- company: http://www.thenetcircle.com
 
 ## Getting Started
  

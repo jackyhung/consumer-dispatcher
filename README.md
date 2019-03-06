@@ -25,7 +25,7 @@ It can work with all http-based interfaces written in any language.
 
 - [How to use it](https://github.com/jackyhung/consumer-dispatcher/wiki/How-to-use-it)
 
-- [How to write my consumder code](https://github.com/jackyhung/consumer-dispatcher/wiki/How-to-write-my-Consumer-Code)
+- [How to write my consumer code](https://github.com/jackyhung/consumer-dispatcher/wiki/How-to-write-my-Consumer-Code)
 
 - [Managing & Monitoring](https://github.com/jackyhung/consumer-dispatcher/wiki/Managing-&-Monitoring)
 
